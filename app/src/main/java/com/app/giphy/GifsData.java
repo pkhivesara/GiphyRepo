@@ -4,10 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-/**
- * Created by Pratik on 6/17/16.
- */
-public class TrendingGifsData {
+public class GifsData {
 
     @SerializedName("data")
     public List<DataObject> data;
@@ -22,6 +19,19 @@ public class TrendingGifsData {
         String source;
         String content_url;
         String source_post_url;
+
+        @SerializedName("images")
+        public ImagesObject imagesObject;
+
+            public class ImagesObject{
+                @SerializedName("fixed_height")
+                public FixedHeight fixedHeight;
+
+                    public class FixedHeight{
+                        String url;
+                    }
+            }
+
 
     }
 }

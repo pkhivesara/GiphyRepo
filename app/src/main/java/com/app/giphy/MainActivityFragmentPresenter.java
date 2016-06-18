@@ -5,9 +5,7 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.util.List;
 
-/**
- * Created by Pratik on 6/16/16.
- */
+
 public class MainActivityFragmentPresenter {
 
     MainFragmentPresenterInterface mainFragmentPresenterInterface;
@@ -30,24 +28,22 @@ public class MainActivityFragmentPresenter {
     }
 
     public interface MainFragmentPresenterInterface {
-        void trendingGifsList(List<TrendingGifsData.DataObject> trendingGifsDataList);
+        void trendingGifsList(List<GifsData.DataObject> trendingGifsDataList);
 
-        void searchedGifsList(List<SearchGifsData.DataObject> searchGifsData);
+        void searchedGifsList(List<GifsData.DataObject> searchGifsData);
     }
 
-    public void searchForAnimatedGifs(String searchString){
+    public void searchForAnimatedGifs(String searchString) {
         serviceHelper.getSearchedGifs(searchString);
     }
 
     @Subscribe
-    public void onEvent(TrendingGifsData trendingGifsData) {
-        mainFragmentPresenterInterface.trendingGifsList(trendingGifsData.data);
-
-    }
-
-    @Subscribe
-    public void onEventMainThread(SearchGifsData searchGifsData){
-        mainFragmentPresenterInterface.searchedGifsList(searchGifsData.data);
+    public void gifsEventRecieved(MessageEvent gifsData) {
+        if (!gifsData.isTrending()) {
+            mainFragmentPresenterInterface.searchedGifsList(gifsData.getSearchedGifs());
+        } else {
+            mainFragmentPresenterInterface.trendingGifsList(gifsData.getSearchedGifs());
+        }
     }
 
 

@@ -7,18 +7,16 @@ import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
 
-/**
- * Created by Pratik on 6/17/16.
- */
+
 public class ServiceHelper {
 
     public void getTrendingGifs() {
-        EventBus.getDefault().hasSubscriberForEvent(TrendingGifsData.class);
-        Call<TrendingGifsData> trendingGifsDataCall = RestWebClient.get().getTrendingGifs("dc6zaTOxFJmzC");
-        trendingGifsDataCall.enqueue(new Callback<TrendingGifsData>() {
+        EventBus.getDefault().hasSubscriberForEvent(GifsData.class);
+        Call<GifsData> trendingGifsDataCall = RestWebClient.get().getTrendingGifs("dc6zaTOxFJmzC");
+        trendingGifsDataCall.enqueue(new Callback<GifsData>() {
             @Override
-            public void onResponse(Response<TrendingGifsData> response, Retrofit retrofit) {
-                EventBus.getDefault().post(response);
+            public void onResponse(Response<GifsData> response, Retrofit retrofit) {
+                EventBus.getDefault().post(new MessageEvent((response.body().data),true));
             }
 
             @Override
@@ -29,11 +27,11 @@ public class ServiceHelper {
     }
 
     public void getSearchedGifs(String searchString){
-        Call<SearchGifsData> searchGifsDataCall = RestWebClient.get().getSearchedGifs(searchString,"dc6zaTOxFJmzC");
-        searchGifsDataCall.enqueue(new Callback<SearchGifsData>() {
+        Call<GifsData> searchGifsDataCall = RestWebClient.get().getSearchedGifs(searchString,"dc6zaTOxFJmzC");
+        searchGifsDataCall.enqueue(new Callback<GifsData>() {
             @Override
-            public void onResponse(Response<SearchGifsData> response, Retrofit retrofit) {
-                EventBus.getDefault().post(response);
+            public void onResponse(Response<GifsData> response, Retrofit retrofit) {
+                EventBus.getDefault().post(new MessageEvent((response.body().data),false));
             }
 
             @Override

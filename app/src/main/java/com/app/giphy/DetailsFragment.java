@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import butterknife.Bind;
+import butterknife.ButterKnife;
 import com.squareup.picasso.Picasso;
 
 /**
@@ -22,11 +23,11 @@ public class DetailsFragment extends Fragment {
     @Bind(R.id.details_url_text_view)
     TextView detailsUrlTextView;
 
-    public static DetailsFragment newInstance(TrendingGifsData.DataObject trendingGifObject) {
+    public static DetailsFragment newInstance(String url, String text) {
         DetailsFragment detailsFragment = new DetailsFragment();
         Bundle args = new Bundle();
-        args.putString("trendingGifObjectURL", trendingGifObject.url);
-        args.putString("trendingGifObjectString", trendingGifObject.bitly_gif_url);
+        args.putString("trendingGifObjectURL", url);
+        args.putString("trendingGifObjectString", text);
         detailsFragment.setArguments(args);
         return detailsFragment;
 
@@ -37,6 +38,7 @@ public class DetailsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.fragment_details, container, false);
+        ButterKnife.bind(this, view);
         String trendingGifObjectURL = getArguments().getString("trendingGifObjectURL");
         String trendingGifObjectString = getArguments().getString("trendingGifObjectString");
         Picasso.with(getActivity()).load(trendingGifObjectURL).into(detailsGifImageView);

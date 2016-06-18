@@ -9,18 +9,21 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.*;
 import android.widget.ImageView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.squareup.picasso.Picasso;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.List;
 
 /**
  * A placeholder fragment containing a simple view.
  */
-public class MainActivityFragment extends Fragment implements MainActivityFragmentPresenter.MainFragmentPresenterInterface{
+public class MainActivityFragment extends Fragment implements MainActivityFragmentPresenter.MainFragmentPresenterInterface {
 
 
     @Bind(R.id.gifsList)
@@ -28,6 +31,9 @@ public class MainActivityFragment extends Fragment implements MainActivityFragme
 
     MainActivityFragmentPresenter mainActivityFragmentPresenter;
     MainActivityFragmentPresenterInterface mainActivityFragmentPresenterInterface;
+    List<GifsData.DataObject> trendingGifsTemporaryListData;
+    GifsAdapter gifsAdapter;
+
 
     public MainActivityFragment() {
     }
@@ -35,7 +41,7 @@ public class MainActivityFragment extends Fragment implements MainActivityFragme
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view =  inflater.inflate(R.layout.fragment_main, container, false);
+        View view = inflater.inflate(R.layout.fragment_main, container, false);
         mainActivityFragmentPresenter = new MainActivityFragmentPresenter(this);
 
         ButterKnife.bind(this, view);
@@ -45,7 +51,7 @@ public class MainActivityFragment extends Fragment implements MainActivityFragme
     }
 
     private void setUpRecyclerView() {
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(),2);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2);
         gridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.addItemDecoration(new DividerDecoration(getActivity()));
@@ -63,7 +69,7 @@ public class MainActivityFragment extends Fragment implements MainActivityFragme
 
     @Override
     public void onResume() {
-        mainActivityFragmentPresenter.onResume();
+
         super.onResume();
 
     }
@@ -71,11 +77,23 @@ public class MainActivityFragment extends Fragment implements MainActivityFragme
 
     @Override
     public void onPause() {
-        mainActivityFragmentPresenter.onPause();
+
         super.onPause();
 
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        mainActivityFragmentPresenter.onPause();
+    }
+
+    @Override
+    public void onStart() {
+        mainActivityFragmentPresenter.onResume();
+        super.onStart();
+
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -102,14 +120,26 @@ public class MainActivityFragment extends Fragment implements MainActivityFragme
         final SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String searchString) {
-                mainActivityFragmentPresenter.searchForAnimatedGifs(searchString);
+                String query = null;
+                try {
+                    query = URLEncoder.encode(searchString, "utf-8");
+                } catch (UnsupportedEncodingException e) {
+                    Log.e(MainActivityFragmentPresenter.class.getSimpleName(),e.toString());
+                }
+                mainActivityFragmentPresenter.searchForAnimatedGifs(query);
 
                 return true;
             }
+
             @Override
             public boolean onQueryTextChange(String textChange) {
-                //searchView.setSuggestionsAdapter(new ExampleAdapter(context,yourData));
-
+                String query = null;
+                try {
+                    query = URLEncoder.encode(textChange, "utf-8");
+                } catch (UnsupportedEncodingException e) {
+                    Log.e(MainActivityFragmentPresenter.class.getSimpleName(),e.toString());
+                }
+                mainActivityFragmentPresenter.searchForAnimatedGifs(query);
                 return true;
 
             }
@@ -120,27 +150,32 @@ public class MainActivityFragment extends Fragment implements MainActivityFragme
     }
 
     @Override
-    public void trendingGifsList(List<TrendingGifsData.DataObject> trendingGifsDataList) {
+    public void trendingGifsList(List<GifsData.DataObject> trendingGifsDataList) {
         setupAdapter(trendingGifsDataList);
     }
 
     @Override
-    public void searchedGifsList(List<SearchGifsData.DataObject> searchGifsData) {
+    public void searchedGifsList(List<GifsData.DataObject> searchGifsData) {
+        trendingGifsTemporaryListData.clear();
+        trendingGifsTemporaryListData.addAll(searchGifsData);
+        gifsAdapter.notifyDataSetChanged();
+
 
     }
 
-    private void setupAdapter(List<TrendingGifsData.DataObject> trendingGifsDataList){
-        GifsAdapter gifsAdapter = new GifsAdapter(trendingGifsDataList);
+    private void setupAdapter(List<GifsData.DataObject> trendingGifsDataList) {
+        gifsAdapter = new GifsAdapter(trendingGifsDataList);
         recyclerView.setAdapter(gifsAdapter);
     }
 
 
-    public class GifsAdapter extends RecyclerView.Adapter<GifsAdapter.MainViewHolder>{
-        List<TrendingGifsData.DataObject> trendingGifsTemporaryListData;
+    public class GifsAdapter extends RecyclerView.Adapter<GifsAdapter.MainViewHolder> {
 
-        public GifsAdapter(List<TrendingGifsData.DataObject> trendingGifsListData){
-            this.trendingGifsTemporaryListData = trendingGifsListData;
+
+        public GifsAdapter(List<GifsData.DataObject> trendingGifsListData) {
+            trendingGifsTemporaryListData = trendingGifsListData;
         }
+
         @Override
         public MainViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.image_row, parent, false);
@@ -149,7 +184,7 @@ public class MainActivityFragment extends Fragment implements MainActivityFragme
 
         @Override
         public void onBindViewHolder(MainViewHolder holder, int position) {
-            String imageURL = trendingGifsTemporaryListData.get(position).url;
+            String imageURL = trendingGifsTemporaryListData.get(position).imagesObject.fixedHeight.url;
             Picasso.with(getActivity()).load(imageURL).into(holder.gifsImageView);
         }
 
@@ -158,7 +193,7 @@ public class MainActivityFragment extends Fragment implements MainActivityFragme
             return trendingGifsTemporaryListData.size();
         }
 
-        public class MainViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+        public class MainViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
             @Bind(R.id.gifs_image_view)
             ImageView gifsImageView;
@@ -167,10 +202,12 @@ public class MainActivityFragment extends Fragment implements MainActivityFragme
             public MainViewHolder(View itemView) {
                 super(itemView);
                 ButterKnife.bind(this, itemView);
+                itemView.setOnClickListener(this);
             }
 
             @Override
             public void onClick(View v) {
+                Log.d("#######", "clicked recycler");
                 mainActivityFragmentPresenterInterface.gridItemClicked(trendingGifsTemporaryListData.get(getAdapterPosition()));
 
             }
@@ -178,6 +215,6 @@ public class MainActivityFragment extends Fragment implements MainActivityFragme
     }
 
     public interface MainActivityFragmentPresenterInterface {
-        void gridItemClicked(TrendingGifsData.DataObject trendingGifObject);
+        void gridItemClicked(GifsData.DataObject trendingGifObject);
     }
 }
