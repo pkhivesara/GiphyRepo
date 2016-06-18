@@ -18,7 +18,6 @@ public class ServiceHelper {
         trendingGifsDataCall.enqueue(new Callback<TrendingGifsData>() {
             @Override
             public void onResponse(Response<TrendingGifsData> response, Retrofit retrofit) {
-
                 EventBus.getDefault().post(response);
             }
 

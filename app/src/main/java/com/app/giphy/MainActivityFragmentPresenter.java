@@ -31,6 +31,8 @@ public class MainActivityFragmentPresenter {
 
     public interface MainFragmentPresenterInterface {
         void trendingGifsList(List<TrendingGifsData.DataObject> trendingGifsDataList);
+
+        void searchedGifsList(List<SearchGifsData.DataObject> searchGifsData);
     }
 
     public void searchForAnimatedGifs(String searchString){
@@ -41,6 +43,11 @@ public class MainActivityFragmentPresenter {
     public void onEvent(TrendingGifsData trendingGifsData) {
         mainFragmentPresenterInterface.trendingGifsList(trendingGifsData.data);
 
+    }
+
+    @Subscribe
+    public void onEventMainThread(SearchGifsData searchGifsData){
+        mainFragmentPresenterInterface.searchedGifsList(searchGifsData.data);
     }
 
 

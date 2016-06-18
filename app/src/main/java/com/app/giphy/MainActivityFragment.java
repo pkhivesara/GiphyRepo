@@ -1,7 +1,6 @@
 package com.app.giphy;
 
 import android.app.SearchManager;
-import android.app.Service;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,14 +9,11 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.view.*;
 import android.widget.ImageView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.squareup.picasso.Picasso;
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
 
 import java.util.List;
 
@@ -128,6 +124,11 @@ public class MainActivityFragment extends Fragment implements MainActivityFragme
         setupAdapter(trendingGifsDataList);
     }
 
+    @Override
+    public void searchedGifsList(List<SearchGifsData.DataObject> searchGifsData) {
+
+    }
+
     private void setupAdapter(List<TrendingGifsData.DataObject> trendingGifsDataList){
         GifsAdapter gifsAdapter = new GifsAdapter(trendingGifsDataList);
         recyclerView.setAdapter(gifsAdapter);
@@ -135,10 +136,10 @@ public class MainActivityFragment extends Fragment implements MainActivityFragme
 
 
     public class GifsAdapter extends RecyclerView.Adapter<GifsAdapter.MainViewHolder>{
-        List<TrendingGifsData.DataObject> trendingGifsListData;
+        List<TrendingGifsData.DataObject> trendingGifsTemporaryListData;
 
         public GifsAdapter(List<TrendingGifsData.DataObject> trendingGifsListData){
-            this.trendingGifsListData = trendingGifsListData;
+            this.trendingGifsTemporaryListData = trendingGifsListData;
         }
         @Override
         public MainViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -148,13 +149,13 @@ public class MainActivityFragment extends Fragment implements MainActivityFragme
 
         @Override
         public void onBindViewHolder(MainViewHolder holder, int position) {
-            String imageURL = trendingGifsListData.get(position).url;
+            String imageURL = trendingGifsTemporaryListData.get(position).url;
             Picasso.with(getActivity()).load(imageURL).into(holder.gifsImageView);
         }
 
         @Override
         public int getItemCount() {
-            return trendingGifsListData.size();
+            return trendingGifsTemporaryListData.size();
         }
 
         public class MainViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
@@ -170,7 +171,7 @@ public class MainActivityFragment extends Fragment implements MainActivityFragme
 
             @Override
             public void onClick(View v) {
-                mainActivityFragmentPresenterInterface.gridItemClicked(trendingGifsListData.get(getAdapterPosition()));
+                mainActivityFragmentPresenterInterface.gridItemClicked(trendingGifsTemporaryListData.get(getAdapterPosition()));
 
             }
         }
