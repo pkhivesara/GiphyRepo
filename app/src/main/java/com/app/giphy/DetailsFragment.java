@@ -11,9 +11,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.squareup.picasso.Picasso;
 
-/**
- * Created by Pratik on 6/17/16.
- */
 public class DetailsFragment extends Fragment {
 
 
@@ -37,14 +34,28 @@ public class DetailsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view =  inflater.inflate(R.layout.fragment_details, container, false);
+        View view = inflater.inflate(R.layout.fragment_details, container, false);
         ButterKnife.bind(this, view);
         String trendingGifObjectURL = getArguments().getString("trendingGifObjectURL");
         String trendingGifObjectString = getArguments().getString("trendingGifObjectString");
         Picasso.with(getActivity()).load(trendingGifObjectURL).into(detailsGifImageView);
-        detailsUrlTextView.setText(trendingGifObjectURL + ", " + " " + trendingGifObjectString);
+
+        StringBuilder finalStringToDisplay = new StringBuilder();
+        finalStringToDisplay.append(showString(R.string.image_pulled_from))
+                .append(showString(R.string.empty_space))
+                .append(trendingGifObjectURL)
+                .append(showString(R.string.empty_space))
+                .append(showString(R.string.additional_url))
+                .append(showString(R.string.empty_space))
+                .append(trendingGifObjectString);
+
+        detailsUrlTextView.setText(finalStringToDisplay);
         return view;
 
+    }
+
+    private String showString(int stringId) {
+        return getActivity().getString(stringId);
     }
 
 

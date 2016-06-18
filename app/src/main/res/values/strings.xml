@@ -2,4 +2,7 @@
     <string name="app_name">Giphy</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="empty_space">" "</string>
+    <string name="image_pulled_from">"Image pulled from : "</string>
+    <string name="additional_url">"Additional Url:  "</string>
 </resources>

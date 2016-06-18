@@ -2,9 +2,7 @@ package com.app.giphy;
 
 import java.util.List;
 
-/**
- * Created by Pratik on 6/18/16.
- */
+
 public class MessageEvent {
     private List<GifsData.DataObject> searchedGifs;
     private boolean isTrending;

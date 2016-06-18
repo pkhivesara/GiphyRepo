@@ -5,14 +5,9 @@ import com.squareup.okhttp.logging.HttpLoggingInterceptor;
 import retrofit.GsonConverterFactory;
 import retrofit.Retrofit;
 
-/**
- * Created by Pratik on 6/17/16.
- */
 public class RestWebClient {
 
     private static ApiCall REST_CLIENT;
-    private static String URL =
-            "http://api.giphy.com/";
 
     static {
         setupRestClient();
@@ -31,6 +26,7 @@ public class RestWebClient {
         httpClient.interceptors().add(logging);
 
 
+        String URL = "http://api.giphy.com/";
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(URL)
                 .addConverterFactory(GsonConverterFactory.create())

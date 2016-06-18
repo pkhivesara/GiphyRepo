@@ -1,12 +1,15 @@
 package com.app.giphy;
 
 import android.content.Intent;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 
 public class MainActivity extends AppCompatActivity implements MainActivityFragment.MainActivityFragmentPresenterInterface {
     MainActivityFragment mainActivityFragment;
@@ -28,21 +31,19 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
+        return id == R.id.action_settings || super.onOptionsItemSelected(item);
 
-        return super.onOptionsItemSelected(item);
     }
 
 
     @Override
-    public void gridItemClicked(GifsData.DataObject trendingGifObject) {
+    public void gridItemClicked(GifsData.DataObject trendingGifObject, View view) {
         Intent intent = new Intent(this, DetailsActivity.class);
         intent.putExtra("trendingGifObjectURL", trendingGifObject.imagesObject.fixedHeight.url);
         intent.putExtra("trendingGifObjectString", trendingGifObject.bitly_gif_url);
-        startActivity(intent);
 
+        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(this,view,"transition");
+        ActivityCompat.startActivity(MainActivity.this, intent, options.toBundle());
 
     }
 }

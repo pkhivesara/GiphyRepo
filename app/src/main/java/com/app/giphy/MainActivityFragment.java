@@ -206,15 +206,15 @@ public class MainActivityFragment extends Fragment implements MainActivityFragme
             }
 
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 Log.d("#######", "clicked recycler");
-                mainActivityFragmentPresenterInterface.gridItemClicked(trendingGifsTemporaryListData.get(getAdapterPosition()));
+                mainActivityFragmentPresenterInterface.gridItemClicked(trendingGifsTemporaryListData.get(getAdapterPosition()),view);
 
             }
         }
     }
 
     public interface MainActivityFragmentPresenterInterface {
-        void gridItemClicked(GifsData.DataObject trendingGifObject);
+        void gridItemClicked(GifsData.DataObject trendingGifObject, View view);
     }
 }

@@ -1,5 +1,6 @@
+
 <resources>
-    <style name="MaterialTheme" parent="MaterialTheme.Base">
+    <style name="MaterialTestTheme" parent="MaterialTestTheme.Base">
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowTranslucentStatus">true</item>

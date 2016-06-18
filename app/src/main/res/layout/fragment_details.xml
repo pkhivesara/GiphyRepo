@@ -10,6 +10,7 @@
         android:id="@+id/details_gif_image_view"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
+        android:transitionName="transition"
         android:layout_alignParentEnd="true"
         android:layout_marginRight="76dp"
         android:layout_marginEnd="76dp"
@@ -19,6 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="New Text"
+        android:paddingBottom="35dp"
         android:id="@+id/details_url_text_view"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"/>
