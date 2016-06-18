@@ -45,6 +45,7 @@ public class DetailsFragment extends Fragment {
                 .append(showString(R.string.empty_space))
                 .append(trendingGifObjectURL)
                 .append(showString(R.string.empty_space))
+                .append("\n")
                 .append(showString(R.string.additional_url))
                 .append(showString(R.string.empty_space))
                 .append(trendingGifObjectString);

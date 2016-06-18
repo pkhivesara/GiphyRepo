@@ -10,16 +10,7 @@ public class GifsData {
     public List<DataObject> data;
 
     public class DataObject {
-        String type;
-        String id;
-        String url;
         String bitly_gif_url;
-        String bitly_url;
-        String embed_url;
-        String source;
-        String content_url;
-        String source_post_url;
-
         @SerializedName("images")
         public ImagesObject imagesObject;
 

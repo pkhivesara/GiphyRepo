@@ -16,6 +16,7 @@ public class MainActivityFragmentPresenter {
         serviceHelper = new ServiceHelper();
 
         serviceHelper.getTrendingGifs();
+        mainFragmentPresenterInterface.showLoadingSpinner();
 
     }
 
@@ -31,6 +32,10 @@ public class MainActivityFragmentPresenter {
         void trendingGifsList(List<GifsData.DataObject> trendingGifsDataList);
 
         void searchedGifsList(List<GifsData.DataObject> searchGifsData);
+
+        void showLoadingSpinner();
+
+        void hideLoadingSpinner();
     }
 
     public void searchForAnimatedGifs(String searchString) {
@@ -44,6 +49,7 @@ public class MainActivityFragmentPresenter {
         } else {
             mainFragmentPresenterInterface.trendingGifsList(gifsData.getSearchedGifs());
         }
+        mainFragmentPresenterInterface.hideLoadingSpinner();
     }
 
 

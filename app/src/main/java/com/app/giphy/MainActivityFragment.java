@@ -1,5 +1,6 @@
 package com.app.giphy;
 
+import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.support.annotation.Nullable;
@@ -33,6 +34,7 @@ public class MainActivityFragment extends Fragment implements MainActivityFragme
     MainActivityFragmentPresenterInterface mainActivityFragmentPresenterInterface;
     List<GifsData.DataObject> trendingGifsTemporaryListData;
     GifsAdapter gifsAdapter;
+    ProgressDialog progressDialog;
 
 
     public MainActivityFragment() {
@@ -160,6 +162,19 @@ public class MainActivityFragment extends Fragment implements MainActivityFragme
         trendingGifsTemporaryListData.addAll(searchGifsData);
         gifsAdapter.notifyDataSetChanged();
 
+
+    }
+
+    @Override
+    public void showLoadingSpinner() {
+        progressDialog= new ProgressDialog(getActivity());
+        progressDialog.setMessage(getActivity().getString(R.string.fetching_images));
+        progressDialog.show();
+    }
+
+    @Override
+    public void hideLoadingSpinner() {
+        progressDialog.dismiss();
 
     }
 

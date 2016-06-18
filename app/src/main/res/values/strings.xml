@@ -5,4 +5,5 @@
     <string name="empty_space">" "</string>
     <string name="image_pulled_from">"Image pulled from : "</string>
     <string name="additional_url">"Additional Url:  "</string>
+    <string name="fetching_images">Fetching Gifs</string>
 </resources>
