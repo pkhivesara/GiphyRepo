@@ -21,9 +21,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.List;
 
-/**
- * A placeholder fragment containing a simple view.
- */
+
 public class MainActivityFragment extends Fragment implements MainActivityFragmentPresenter.MainFragmentPresenterInterface {
 
 
