@@ -21,7 +21,7 @@ public class DetailsActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         DetailsFragment detailsFragment = DetailsFragment.newInstance(getIntent().getStringExtra("trendingGifObjectURL"),getIntent().getStringExtra("trendingGifObjectString"));
-        fragmentTransaction.add(R.id.mainFrameLayout, detailsFragment);
+        fragmentTransaction.add(R.id.container_layout, detailsFragment);
         fragmentTransaction.commit();
 
     }

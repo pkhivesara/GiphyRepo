@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
         mainActivityFragment = MainActivityFragment.newInstance();
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.mainFrameLayout,mainActivityFragment);
+        fragmentTransaction.add(R.id.container_layout,mainActivityFragment);
         fragmentTransaction.commit();
     }
 

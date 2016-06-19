@@ -17,7 +17,7 @@
 
 
     <FrameLayout
-        android:id="@+id/mainFrameLayout"
+        android:id="@+id/container_layout"
         android:name="com.app.giphy.MainActivityFragment"
         tools:layout="@layout/fragment_main"
         android:layout_width="match_parent"

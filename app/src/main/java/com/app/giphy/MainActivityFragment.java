@@ -25,7 +25,7 @@ import java.util.List;
 public class MainActivityFragment extends Fragment implements MainActivityFragmentPresenter.MainFragmentPresenterInterface {
 
 
-    @Bind(R.id.gifsList)
+    @Bind(R.id.gifs_list)
     RecyclerView recyclerView;
 
     MainActivityFragmentPresenter mainActivityFragmentPresenter;
@@ -220,7 +220,6 @@ public class MainActivityFragment extends Fragment implements MainActivityFragme
 
             @Override
             public void onClick(View view) {
-                Log.d("#######", "clicked recycler");
                 mainActivityFragmentPresenterInterface.gridItemClicked(trendingGifsTemporaryListData.get(getAdapterPosition()),view);
 
             }
